@@ -1,0 +1,1168 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixel Art Generator</title>
+<meta name="description" content="Create stunning pixel art online with our free Pixel Art Generator. Customize grid size, colors, and download your artwork instantly. No signup required!">
+<meta name="keywords" content="pixel art generator, online pixel art maker, create pixel art, pixel art tool, pixel drawing, pixel grid editor, pixel art creator, pixel editor">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Pixel Art Generator">
+<meta property="og:description" content="Easily create and customize pixel art with our intuitive online Pixel Art Generator. Download your creations in one click.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pixelartconverter.com/pixel-art-generator">
+<meta property="og:image" content="https://pixelartconverter.com/images/pixel-art-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pixel Art Generator">
+<meta name="twitter:description" content="Draw pixel art effortlessly using our free and simple Pixel Art Generator. Ideal for game design and digital creativity.">
+<meta name="twitter:image" content="https://pixelartconverter.com/images/pixel-art-preview.png">
+
+    <style>
+        :root {
+            --primary: #6d28d9;
+            --primary-dark: #5b21b6;
+            --primary-light: #8b5cf6;
+            --accent: #ec4899;
+            --background: #f9fafb;
+            --card: #ffffff;
+            --text: #111827;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .panel {
+            background-color: var(--card);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        .input-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .control-group h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .control-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        label {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        select, input[type="range"], input[type="number"] {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            background-color: white;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider-value {
+            min-width: 3rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--border);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.02);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary-light);
+            background-color: rgba(139, 92, 246, 0.05);
+        }
+
+        .upload-zone.active {
+            border-color: var(--primary);
+            background-color: rgba(139, 92, 246, 0.1);
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .button:disabled {
+            background-color: var(--text-light);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .button-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .button-secondary:hover {
+            background-color: rgba(109, 40, 217, 0.05);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .output-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .canvas-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .canvas-wrapper h3 {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        canvas {
+            max-width: 100%;
+            border: 1px solid var(--border);
+            background-color: white;
+            image-rendering: pixelated; /* Critical for pixel art */
+            image-rendering: crisp-edges;
+        }
+
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                grid-template-columns: 1fr;
+            }
+            .canvas-container {
+                flex-direction: column;
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            border: 3px solid rgba(109, 40, 217, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Navigation Bar Styles */
+        .nav-bar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-logo svg {
+            margin-right: 0.5rem;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 4rem 1rem;
+            background-color: var(--background);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--card);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 1rem;
+            background-color: var(--background);
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .faq-item {
+            background-color: var(--card);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-item h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr; /* Adjust the first column to be wider */
+            gap: 3rem;
+            padding: 0 1rem;
+        }
+
+        /* Add media query for mobile devices */
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr; /* Stack vertically on mobile */
+                gap: 2rem;
+            }
+        }
+
+        /* Update other footer styles for better alignment */
+        .footer-section {
+            min-width: 0; /* Prevent overflow */
+        }
+
+        .footer-section h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .footer-section h4 {
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            margin: 0;
+            padding: 0;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .social-links a:hover {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.875rem;
+        }
+    </style>
+<link rel="me" href="https://www.blogger.com/profile/13995564742062554546" />
+<meta name='google-adsense-platform-account' content='ca-host-pub-1556223355139109'/>
+<meta name='google-adsense-platform-domain' content='blogspot.com'/>
+<link rel="me" href="https://www.blogger.com/profile/16441879658146806408" />
+<meta name='google-adsense-platform-account' content='ca-host-pub-1556223355139109'/>
+<meta name='google-adsense-platform-domain' content='blogspot.com'/>
+<link rel="me" href="https://www.blogger.com/profile/16441879658146806408" />
+<meta name='google-adsense-platform-account' content='ca-host-pub-1556223355139109'/>
+<meta name='google-adsense-platform-domain' content='blogspot.com'/>
+</head>
+<body>
+    <header>
+        <h1>Pixel Art Generator</h1>
+        <p class="tagline">Transform your images into awesome pixel art creations</p>
+    </header>
+
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                    <rect x="7" y="7" width="4" width="4" fill="currentColor" />
+                    <rect x="13" y="7" width="4" width="4" fill="currentColor" />
+                    <rect x="7" y="13" width="4" width="4" fill="currentColor" />
+                    <rect x="13" y="13" width="4" width="4" fill="currentColor" />
+                </svg>
+                PixelArtify
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+            
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="panel input-panel">
+            <div class="upload-zone" id="drop-zone">
+                <div class="upload-icon">📁</div>
+                <h2>Upload Your Image</h2>
+                <p>Click or drag & drop an image file here</p>
+                <input type="file" id="file-input" accept="image/*">
+            </div>
+
+            <div id="controls" class="controls" style="display: none;">
+                <div class="control-group">
+                    <h3>Pixel Resolution</h3>
+                    <div class="control-item">
+                        <label for="pixel-size">Pixel Size</label>
+                        <div class="slider-container"> 
+                            <input type="range" id="pixel-size" min="1" max="20" value="1" step="1">
+                            <span class="slider-value" id="pixel-size-value">3px</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>Color Options</h3>
+                    <div class="control-item">
+                        <label for="color-reduction">Color Palette Size</label>
+                        <div class="slider-container">
+                            <input type="range" id="color-reduction" min="2" max="64" value="64" step="1">
+                            <span class="slider-value" id="color-reduction-value">16</span>
+                        </div>
+                    </div>
+                    <div class="control-item">
+                        <label for="dithering">Dithering</label>
+                        <select id="dithering">
+                            <option value="none">None</option>
+                            <option value="floyd-steinberg" selected>Floyd-Steinberg</option>
+                            <option value="ordered">Ordered</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>Output Size</h3>
+                    <div class="control-item">
+                        <label for="output-scale">Output Scale</label>
+                        <div class="slider-container">
+                            <input type="range" id="output-scale" min="1" max="5" value="5" step="1">
+                            <span class="slider-value" id="output-scale-value">2x</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Converting your image...</p>
+            </div>
+
+            <div id="process-buttons" class="button-group" style="display: none;">
+                <button id="process-button" class="button">Generate Pixel Art</button>
+                <button id="reset-button" class="button button-secondary">Reset</button>
+            </div>
+        </div>
+
+        <div id="output-panel" class="panel output-panel" style="display: none;">
+            <h2>Your Pixel Art</h2>
+            
+            <div class="canvas-container">
+                <div class="canvas-wrapper">
+                    <h3>Original Image</h3>
+                    <canvas id="original-canvas"></canvas>
+                </div>
+                <div class="canvas-wrapper">
+                    <h3>Pixel Art</h3>
+                    <canvas id="pixel-canvas"></canvas>
+                </div>
+            </div>
+
+            <div class="options">
+                <button id="download-button" class="button">Download as PNG</button>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <section id="features" class="features-section">
+            <div class="container">
+                <h2 class="section-title">Features</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Smart Color Reduction</h3>
+                        <p>Intelligently reduces colors while maintaining image quality using advanced algorithms.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">✨</div>
+                        <h3>Multiple Dithering Options</h3>
+                        <p>Choose from various dithering methods to achieve your desired pixel art style.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📏</div>
+                        <h3>Customizable Resolution</h3>
+                        <p>Adjust pixel size and output scale to create the perfect pixelated look.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💾</div>
+                        <h3>Easy Export</h3>
+                        <p>Download your pixel art creations in high-quality PNG format.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="faq-section">
+            <div class="container">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>What is pixel art?</h3>
+                        <p>Pixel art is a form of digital art where images are created and edited at the pixel level, typically using a limited color palette.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>What file types are supported?</h3>
+                        <p>Our tool supports common image formats including PNG, JPEG, GIF, and WebP files.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>What is dithering?</h3>
+                        <p>Dithering is a technique used to create the illusion of color depth in images with a limited color palette.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Is there a file size limit?</h3>
+                        <p>Yes, we recommend using images under 5MB for optimal performance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>PixelArtify</h3>
+                <p>Transform your images into beautiful pixel art with our easy-to-use online tool.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="GitHub">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Tutorials</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 PixelArtify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const fileInput = document.getElementById('file-input');
+        const dropZone = document.getElementById('drop-zone');
+        const controls = document.getElementById('controls');
+        const processButtons = document.getElementById('process-buttons');
+        const processButton = document.getElementById('process-button');
+        const resetButton = document.getElementById('reset-button');
+        const outputPanel = document.getElementById('output-panel');
+        const originalCanvas = document.getElementById('original-canvas');
+        const pixelCanvas = document.getElementById('pixel-canvas');
+        const downloadButton = document.getElementById('download-button');
+        const loading = document.getElementById('loading');
+
+        // Sliders
+        const pixelSizeSlider = document.getElementById('pixel-size');
+        const pixelSizeValue = document.getElementById('pixel-size-value');
+        const colorReductionSlider = document.getElementById('color-reduction');
+        const colorReductionValue = document.getElementById('color-reduction-value');
+        const outputScaleSlider = document.getElementById('output-scale');
+        const outputScaleValue = document.getElementById('output-scale-value');
+        const ditheringSelect = document.getElementById('dithering');
+
+        // Global variables
+        let originalImage = null;
+
+        // Event listeners for drag and drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropZone.classList.add('active');
+        }
+
+        function unhighlight() {
+            dropZone.classList.remove('active');
+        }
+
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length) {
+                fileInput.files = files;
+                handleFiles(files);
+            }
+        }
+
+        // Click to upload
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) {
+                handleFiles(fileInput.files);
+            }
+        });
+
+        // Handle the uploaded files
+        function handleFiles(files) {
+            const file = files[0];
+            if (file.type.match('image.*')) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    loadImage(e.target.result);
+                };
+                
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please upload an image file');
+            }
+        }
+
+        // Load image from data URL
+        function loadImage(dataUrl) {
+            const img = new Image();
+            
+            img.onload = function() {
+                originalImage = img;
+                drawOriginalImage();
+                controls.style.display = 'grid';
+                processButtons.style.display = 'flex';
+            };
+            
+            img.src = dataUrl;
+        }
+
+        // Draw the original image on canvas
+        function drawOriginalImage() {
+            const ctx = originalCanvas.getContext('2d');
+            
+            // Calculate dimensions while maintaining aspect ratio
+            const maxWidth = 400;
+            const maxHeight = 400;
+            let width = originalImage.width;
+            let height = originalImage.height;
+            
+            if (width > height) {
+                if (width > maxWidth) {
+                    height = height * (maxWidth / width);
+                    width = maxWidth;
+                }
+            } else {
+                if (height > maxHeight) {
+                    width = width * (maxHeight / height);
+                    height = maxHeight;
+                }
+            }
+            
+            originalCanvas.width = width;
+            originalCanvas.height = height;
+            
+            ctx.drawImage(originalImage, 0, 0, width, height);
+        }
+
+        // Update slider value displays
+        pixelSizeSlider.addEventListener('input', () => {
+            pixelSizeValue.textContent = `${pixelSizeSlider.value}px`;
+        });
+
+        colorReductionSlider.addEventListener('input', () => {
+            colorReductionValue.textContent = colorReductionSlider.value;
+        });
+
+        outputScaleSlider.addEventListener('input', () => {
+            outputScaleValue.textContent = `${outputScaleSlider.value}x`;
+        });
+
+        // Process button click handler
+        processButton.addEventListener('click', processImage);
+
+        function processImage() {
+            if (!originalImage) return;
+            
+            loading.style.display = 'block';
+            
+            // Use setTimeout to allow the UI to update before the heavy processing
+            setTimeout(() => {
+                const pixelSize = parseInt(pixelSizeSlider.value);
+                const colorCount = parseInt(colorReductionSlider.value);
+                const outputScale = parseInt(outputScaleSlider.value);
+                const ditheringMethod = ditheringSelect.value;
+                
+                // Create pixelated image
+                createPixelArt(pixelSize, colorCount, outputScale, ditheringMethod);
+                
+                // Show output panel
+                outputPanel.style.display = 'block';
+                loading.style.display = 'none';
+                
+                // Scroll to output
+                outputPanel.scrollIntoView({ behavior: 'smooth' });
+            }, 50);
+        }
+
+        // Reset button handler
+        resetButton.addEventListener('click', () => {
+            originalImage = null;
+            fileInput.value = '';
+            controls.style.display = 'none';
+            processButtons.style.display = 'none';
+            outputPanel.style.display = 'none';
+        });
+
+        // Download button handler
+        downloadButton.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'pixel-art.png';
+            link.href = pixelCanvas.toDataURL('image/png');
+            link.click();
+        });
+
+        // Create pixel art from original image
+        function createPixelArt(pixelSize, colorCount, outputScale, ditheringMethod) {
+            // Calculate the downscaled dimensions
+            const scaledWidth = Math.floor(originalCanvas.width / pixelSize);
+            const scaledHeight = Math.floor(originalCanvas.height / pixelSize);
+            
+            // Create a temporary canvas for the downscaled image
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = scaledWidth;
+            tempCanvas.height = scaledHeight;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            // Draw the downscaled image
+            tempCtx.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight);
+            
+            // Get the pixel data
+            const imageData = tempCtx.getImageData(0, 0, scaledWidth, scaledHeight);
+            const pixels = imageData.data;
+            
+            // Generate a color palette
+            const palette = generatePalette(imageData, colorCount);
+            
+            // Apply color mapping and dithering
+            if (ditheringMethod === 'floyd-steinberg') {
+                applyFloydSteinbergDithering(imageData, palette);
+            } else if (ditheringMethod === 'ordered') {
+                applyOrderedDithering(imageData, palette);
+            } else {
+                applyNearestColorMapping(imageData, palette);
+            }
+            
+            // Put the processed image data back
+            tempCtx.putImageData(imageData, 0, 0);
+            
+            // Set the output canvas size
+            pixelCanvas.width = scaledWidth * outputScale;
+            pixelCanvas.height = scaledHeight * outputScale;
+            const pixelCtx = pixelCanvas.getContext('2d');
+            
+            // Draw the pixelated and scaled image
+            pixelCtx.imageSmoothingEnabled = false; // Disable anti-aliasing
+            pixelCtx.drawImage(tempCanvas, 0, 0, pixelCanvas.width, pixelCanvas.height);
+        }
+
+        // Generate a color palette using median cut algorithm
+        function generatePalette(imageData, colorCount) {
+            const pixels = imageData.data;
+            const colors = [];
+            
+            // Extract unique colors
+            for (let i = 0; i < pixels.length; i += 4) {
+                const r = pixels[i];
+                const g = pixels[i + 1];
+                const b = pixels[i + 2];
+                
+                // Skip transparent pixels
+                if (pixels[i + 3] < 128) continue;
+                
+                colors.push([r, g, b]);
+            }
+            
+            // If we have fewer unique colors than requested, return those
+            if (colors.length <= colorCount) {
+                return colors;
+            }
+            
+            // Use a simplified quantization approach for this demo
+            // We'll use K-means clustering
+            return kMeansQuantization(colors, colorCount);
+        }
+
+        // K-means quantization algorithm
+        function kMeansQuantization(colors, k) {
+            if (colors.length === 0) return [];
+            
+            // Initialize centroids randomly from the colors
+            const centroids = [];
+            const colorsCopy = [...colors];
+            
+            // Pick initial centroids with some distance between them
+            for (let i = 0; i < k && colorsCopy.length > 0; i++) {
+                const randomIndex = Math.floor(Math.random() * colorsCopy.length);
+                centroids.push([...colorsCopy[randomIndex]]);
+                colorsCopy.splice(randomIndex, 1);
+            }
+            
+            // If we couldn't get enough centroids, duplicate some
+            while (centroids.length < k) {
+                centroids.push([...centroids[Math.floor(Math.random() * centroids.length)]]);
+            }
+            
+            const MAX_ITERATIONS = 10;
+            let iterations = 0;
+            let changed = true;
+            
+            while (changed && iterations < MAX_ITERATIONS) {
+                // Reset clusters
+                const clusters = Array(k).fill().map(() => []);
+                
+                // Assign colors to nearest centroid
+                for (const color of colors) {
+                    let minDist = Infinity;
+                    let closestCentroid = 0;
+                    
+                    for (let i = 0; i < centroids.length; i++) {
+                        const dist = colorDistance(color, centroids[i]);
+                        if (dist < minDist) {
+                            minDist = dist;
+                            closestCentroid = i;
+                        }
+                    }
+                    
+                    clusters[closestCentroid].push(color);
+                }
+                
+                // Update centroids
+                changed = false;
+                for (let i = 0; i < k; i++) {
+                    if (clusters[i].length === 0) continue;
+                    
+                    const newCentroid = calculateCentroid(clusters[i]);
+                    
+                    if (colorDistance(newCentroid, centroids[i]) > 1) {
+                        centroids[i] = newCentroid;
+                        changed = true;
+                    }
+                }
+                
+                iterations++;
+            }
+            
+            return centroids;
+        }
+
+        // Calculate the centroid of a cluster
+        function calculateCentroid(cluster) {
+            const sum = [0, 0, 0];
+            
+            for (const color of cluster) {
+                sum[0] += color[0];
+                sum[1] += color[1];
+                sum[2] += color[2];
+            }
+            
+            return [
+                Math.round(sum[0] / cluster.length),
+                Math.round(sum[1] / cluster.length),
+                Math.round(sum[2] / cluster.length)
+            ];
+        }
+
+        // Calculate Euclidean distance between colors
+        function colorDistance(color1, color2) {
+            const rDiff = color1[0] - color2[0];
+            const gDiff = color1[1] - color2[1];
+            const bDiff = color1[2] - color2[2];
+            
+            return Math.sqrt(rDiff * rDiff + gDiff * gDiff + bDiff * bDiff);
+        }
+
+        // Find the nearest color in the palette
+        function findNearestColor(color, palette) {
+            let minDist = Infinity;
+            let nearestColor = palette[0];
+            
+            for (const paletteColor of palette) {
+                const dist = colorDistance(color, paletteColor);
+                if (dist < minDist) {
+                    minDist = dist;
+                    nearestColor = paletteColor;
+                }
+            }
+            
+            return nearestColor;
+        }
+
+        // Apply nearest color mapping (no dithering)
+        function applyNearestColorMapping(imageData, palette) {
+            const pixels = imageData.data;
+            
+            for (let i = 0; i < pixels.length; i += 4) {
+                const r = pixels[i];
+                const g = pixels[i + 1];
+                const b = pixels[i + 2];
+                
+                // Skip fully transparent pixels
+                if (pixels[i + 3] < 128) continue;
+                
+                const nearestColor = findNearestColor([r, g, b], palette);
+                
+                pixels[i] = nearestColor[0];
+                pixels[i + 1] = nearestColor[1];
+                pixels[i + 2] = nearestColor[2];
+            }
+        }
+
+        // Apply Floyd-Steinberg dithering
+        function applyFloydSteinbergDithering(imageData, palette) {
+            const width = imageData.width;
+            const height = imageData.height;
+            const pixels = imageData.data;
+            
+            // Create a copy of the pixel data to work with
+            const buffer = new Uint8ClampedArray(pixels);
+            
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const idx = (y * width + x) * 4;
+                    
+                    // Skip fully transparent pixels
+                    if (buffer[idx + 3] < 128) continue;
+                    
+                    const oldColor = [buffer[idx], buffer[idx + 1], buffer[idx + 2]];
+                    const newColor = findNearestColor(oldColor, palette);
+                    
+                    // Set the new color in the output
+                    pixels[idx] = newColor[0];
+                    pixels[idx + 1] = newColor[1];
+                    pixels[idx + 2] = newColor[2];
+                    
+                    // Calculate the error
+                    const errR = oldColor[0] - newColor[0];
+                    const errG = oldColor[1] - newColor[1];
+                    const errB = oldColor[2] - newColor[2];
+                    
+                    // Distribute the error to neighboring pixels
+                    if (x + 1 < width) {
+                        const idx2 = (y * width + x + 1) * 4;
+                        buffer[idx2] = Math.max(0, Math.min(255, buffer[idx2] + errR * 7 / 16));
+                        buffer[idx2 + 1] = Math.max(0, Math.min(255, buffer[idx2 + 1] + errG * 7 / 16));
+                        buffer[idx2 + 2] = Math.max(0, Math.min(255, buffer[idx2 + 2] + errB * 7 / 16));
+                    }
+                    
+                    if (y + 1 < height) {
+                        if (x - 1 >= 0) {
+                            const idx2 = ((y + 1) * width + x - 1) * 4;
+                            buffer[idx2] = Math.max(0, Math.min(255, buffer[idx2] + errR * 3 / 16));
+                            buffer[idx2 + 1] = Math.max(0, Math.min(255, buffer[idx2 + 1] + errG * 3 / 16));
+                            buffer[idx2 + 2] = Math.max(0, Math.min(255, buffer[idx2 + 2] + errB * 3 / 16));
+                        }
+                        
+                        const idx2 = ((y + 1) * width + x) * 4;
+                        buffer[idx2] = Math.max(0, Math.min(255, buffer[idx2] + errR * 5 / 16));
+                        buffer[idx2 + 1] = Math.max(0, Math.min(255, buffer[idx2 + 1] + errG * 5 / 16));
+                        buffer[idx2 + 2] = Math.max(0, Math.min(255, buffer[idx2 + 2] + errB * 5 / 16));
+                        
+                        if (x + 1 < width) {
+                            const idx2 = ((y + 1) * width + x + 1) * 4;
+                            buffer[idx2] = Math.max(0, Math.min(255, buffer[idx2] + errR * 1 / 16));
+                            buffer[idx2 + 1] = Math.max(0, Math.min(255, buffer[idx2 + 1] + errG * 1 / 16));
+                            buffer[idx2 + 2] = Math.max(0, Math.min(255, buffer[idx2 + 2] + errB * 1 / 16));
+                        }
+                    }
+                }
+            }
+        }
+
+        // Apply ordered dithering
+        function applyOrderedDithering(imageData, palette) {
+            const width = imageData.width;
+            const height = imageData.height;
+            const pixels = imageData.data;
+            
+            // Bayer matrix 4x4
+            const bayerMatrix = [
+                [ 0, 8, 2, 10],
+                [12, 4, 14, 6],
+                [ 3, 11, 1, 9],
+                [15, 7, 13, 5]
+            ];
+            
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const idx = (y * width + x) * 4;
+                    
+                    // Skip fully transparent pixels
+                    if (pixels[idx + 3] < 128) continue;
+                    
+                    // Get the original color
+                    const r = pixels[idx];
+                    const g = pixels[idx + 1];
+                    const b = pixels[idx + 2];
+                    
+                    // Apply the dithering threshold
+                    const threshold = (bayerMatrix[y % 4][x % 4] / 16) - 0.5;
+                    
+                    // Apply the threshold adjustment
+                    const adjustedR = Math.max(0, Math.min(255, r + threshold * 32));
+                    const adjustedG = Math.max(0, Math.min(255, g + threshold * 32));
+                    const adjustedB = Math.max(0, Math.min(255, b + threshold * 32));
+                    
+                    // Find the nearest color in the palette
+                    const nearestColor = findNearestColor([adjustedR, adjustedG, adjustedB], palette);
+                    
+                    // Set the new color
+                    pixels[idx] = nearestColor[0];
+                    pixels[idx + 1] = nearestColor[1];
+                    pixels[idx + 2] = nearestColor[2];
+                }
+            }
+        }
+    </script>
+  <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=68318d8da7cb4a0019841a35&product=sop' async='async'></script>
+</body>
+</html>
